@@ -12,5 +12,6 @@ before_install:
 
 script:
   - docker-compose build
-  - docker-compose run test
-  - docker-compose run test rubocop
+  - docker-compose run marmite rspec
+  - docker-compose run marmite rubocop
+  - docker-compose run marmite_dummy rspec
