@@ -9,6 +9,12 @@ module Marmite
       def show_endpoint
         include(Marmite::Endpoints::Show)
       end
+
+      # Activates the #index endpoint
+      # @see Marmite::Endpoints::Index
+      def index_endpoint
+        include(Marmite::Endpoints::Index)
+      end
     end
   end
 end

@@ -4,9 +4,11 @@ require 'active_support/concern'
 
 require 'marmite/controller'
 
+require 'marmite/endpoints/index'
 require 'marmite/endpoints/show'
 require 'marmite/mixins/infer_endpoint_resource'
 require 'marmite/policies/was_the_resource_found'
 require 'marmite/queries/resource_query'
+require 'marmite/services/index_endpoint'
 require 'marmite/services/show_endpoint'
 require 'marmite/version'
