@@ -3,8 +3,3 @@ marmite:
   command: rspec
   volumes:
     - .:/marmite
-marmite_dummy:
-  build: spec/dummy
-  command: rake -T
-  volumes:
-    - ./spec/dummy:/marmite_dummy
