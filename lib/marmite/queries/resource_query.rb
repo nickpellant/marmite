@@ -18,6 +18,13 @@ module Marmite
         search.find_by(find_by_conditions)
       end
 
+      # Finds records to index
+      # @param filter_conditions [Hash] the filter by conditions
+      # @return [Relation]
+      def find_for_index(filter_conditions:)
+        search.where(filter_conditions)
+      end
+
       # ResourceQuery scopes
       module Scopes
       end

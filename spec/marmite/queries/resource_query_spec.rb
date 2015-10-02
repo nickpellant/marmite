@@ -36,4 +36,24 @@ RSpec.describe Marmite::Queries::ResourceQuery, type: :query do
 
     after(:example) { find_for_show }
   end
+
+  describe '#find_for_index' do
+    subject(:find_for_index) do
+      resource_query.find_for_index(filter_conditions: filter_conditions)
+    end
+
+    let(:filter_conditions) { {} }
+
+    let(:resources) { instance_double('Relation') }
+
+    before(:example) do
+      expect(resource_query).to(
+        receive_message_chain(:search, :where).and_return(resources)
+      )
+    end
+
+    it { is_expected.to be(resources) }
+
+    after(:example) { find_for_index }
+  end
 end
