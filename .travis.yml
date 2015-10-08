@@ -14,3 +14,7 @@ script:
   - docker-compose build
   - docker-compose run marmite rspec
   - docker-compose run marmite rubocop
+
+addons:
+  code_climate:
+    repo_token: 9c98125bf6be96288e95b70e80f678e3b7e485a0d043f70e0a488ff77352abac
