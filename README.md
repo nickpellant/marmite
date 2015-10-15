@@ -6,9 +6,8 @@ Marmite is highly opinionated, [DRY](https://en.wikipedia.org/wiki/Don%27t_repea
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/nickpellant/marmite. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/nickpellant/marmite. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](CODE_OF_CONDUCT.md) code of conduct.
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
