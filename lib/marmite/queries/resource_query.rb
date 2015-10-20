@@ -25,6 +25,14 @@ module Marmite
         search.where(filter_conditions)
       end
 
+      # Finds a record to update
+      # @param resource_id [Hash] the resource id
+      # @return [Resource] if the resource object was found
+      # @return [nil] if the resource object was not found
+      def find_for_update(resource_id:)
+        search.find_by(id: resource_id)
+      end
+
       # ResourceQuery scopes
       module Scopes
       end

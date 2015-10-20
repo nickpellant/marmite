@@ -15,6 +15,12 @@ module Marmite
       def index_endpoint
         include(Marmite::Endpoints::Index)
       end
+
+      # Activates the #update endpoint
+      # @see Marmite::Endpoints::Update
+      def update_endpoint
+        include(Marmite::Endpoints::Update)
+      end
     end
   end
 end
