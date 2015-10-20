@@ -56,4 +56,24 @@ RSpec.describe Marmite::Queries::ResourceQuery, type: :query do
 
     after(:example) { find_for_index }
   end
+
+  describe '#find_for_update' do
+    subject(:find_for_update) do
+      resource_query.find_for_update(resource_id: resource_id)
+    end
+
+    let(:resource_id) { 1 }
+
+    let(:resource) { instance_double(resource_constant) }
+
+    before(:example) do
+      expect(resource_query).to(
+        receive_message_chain(:search, :find_by).and_return(resource)
+      )
+    end
+
+    it { is_expected.to be(resource) }
+
+    after(:example) { find_for_update }
+  end
 end

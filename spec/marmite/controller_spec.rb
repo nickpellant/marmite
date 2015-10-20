@@ -21,4 +21,10 @@ RSpec.describe Marmite::Controller, type: :mixin do
 
     it { expect(index_endpoint.new).to be_a(Marmite::Endpoints::Index) }
   end
+
+  describe '#update_endpoint' do
+    subject(:update_endpoint) { TestsController.update_endpoint }
+
+    it { expect(update_endpoint.new).to be_a(Marmite::Endpoints::Update) }
+  end
 end
