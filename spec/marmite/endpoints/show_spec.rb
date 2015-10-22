@@ -53,8 +53,27 @@ RSpec.describe Marmite::Endpoints::Show, type: :mixin do
 
     it 'renders the response' do
       expect(tests_controller).to(
-        receive(:render).with(json: resource, status: :ok)
+        receive(:render).with(json: resource, status: :ok, include: nil)
       )
+    end
+
+    context 'when show_includes are set' do
+      before(:example) do
+        class TestsController
+          private
+
+          def show_includes
+            'examples'
+          end
+        end
+      end
+
+      it 'renders the response with the includes' do
+        expect(tests_controller).to(
+          receive(:render)
+          .with(json: resource, status: :ok, include: 'examples')
+        )
+      end
     end
 
     after(:example) { show_ok }

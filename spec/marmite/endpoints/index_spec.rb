@@ -60,7 +60,8 @@ RSpec.describe Marmite::Endpoints::Index, type: :mixin do
     context 'when index_includes are set' do
       before(:example) do
         class TestsController
-        private
+          private
+
           def index_includes
             'examples'
           end
