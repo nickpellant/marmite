@@ -11,7 +11,13 @@ module Marmite
 
       # Responds to request with index_ok status and resources
       def index_ok(resources:)
-        render json: resources, status: :ok
+        render json: resources, status: :ok, include: index_includes
+      end
+
+      private
+
+      def index_includes
+        nil
       end
     end
   end

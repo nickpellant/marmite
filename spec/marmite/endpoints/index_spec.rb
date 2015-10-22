@@ -53,8 +53,27 @@ RSpec.describe Marmite::Endpoints::Index, type: :mixin do
 
     it 'renders the response' do
       expect(tests_controller).to(
-        receive(:render).with(json: resources, status: :ok)
+        receive(:render).with(json: resources, status: :ok, include: nil)
       )
+    end
+
+    context 'when index_includes are set' do
+      before(:example) do
+        class TestsController
+          private
+
+          def index_includes
+            'examples'
+          end
+        end
+      end
+
+      it 'renders the response with the includes' do
+        expect(tests_controller).to(
+          receive(:render)
+          .with(json: resources, status: :ok, include: 'examples')
+        )
+      end
     end
 
     after(:example) { index_ok }
