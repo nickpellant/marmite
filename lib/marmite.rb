@@ -2,7 +2,7 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'active_support/concern'
 
-I18n.load_path += Dir.glob(File.dirname(__FILE__) + 'marmite/locales/*.yml')
+require 'marmite/railtie'
 
 require 'marmite/mixins/exception_renderer'
 require 'marmite/mixins/infer_endpoint_resource'
