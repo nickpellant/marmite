@@ -61,8 +61,18 @@ RSpec.describe Marmite::Endpoints::Update, type: :mixin do
     let(:resource) { instance_spy('Test') }
 
     it 'renders the response' do
+      json_errors = {
+        errors: [
+          {
+            title: 'The resource you were updating failed validation.',
+            status: :conflict,
+            details: resource.errors
+          }
+        ]
+      }
+
       expect(tests_controller).to(
-        receive(:render).with(json: resource, status: :conflict)
+        receive(:render).with(json: json_errors, status: :conflict)
       )
     end
 
@@ -87,8 +97,17 @@ RSpec.describe Marmite::Endpoints::Update, type: :mixin do
     subject(:update_not_found) { tests_controller.update_not_found }
 
     it 'renders the response' do
+      json_errors = {
+        errors: [
+          {
+            title: 'The resource you were trying to update could not be found.',
+            status: :not_found
+          }
+        ]
+      }
+
       expect(tests_controller).to(
-        receive(:render).with(json: {}, status: :not_found)
+        receive(:render).with(json: json_errors, status: :not_found)
       )
     end
 

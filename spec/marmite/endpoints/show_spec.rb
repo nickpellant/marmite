@@ -83,8 +83,17 @@ RSpec.describe Marmite::Endpoints::Show, type: :mixin do
     subject(:show_not_found) { tests_controller.show_not_found }
 
     it 'renders the response' do
+      json_errors = {
+        errors: [
+          {
+            title: 'The resource you were trying to read could not be found.',
+            status: :not_found
+          }
+        ]
+      }
+
       expect(tests_controller).to(
-        receive(:render).with(json: {}, status: :not_found)
+        receive(:render).with(json: json_errors, status: :not_found)
       )
     end
 

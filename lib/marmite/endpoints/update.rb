@@ -2,6 +2,8 @@ module Marmite
   module Endpoints
     # Controller actions for the #update endpoint
     module Update
+      include Marmite::Mixins::ExceptionRenderer
+
       # Sends the request to be processed
       def update
         Marmite::Services::UpdateEndpoint.new(
@@ -13,12 +15,16 @@ module Marmite
 
       # Responds to request with update_conflict status
       def update_conflict(resource:)
-        render json: resource, status: :conflict
+        render_json_error(
+          code: :validation_failed,
+          status: :conflict,
+          options: { details: resource.errors }
+        )
       end
 
       # Responds to request with update_not_found status
       def update_not_found
-        render json: {}, status: :not_found
+        render_json_error(code: :update_not_found, status: :not_found)
       end
 
       # Responds to request with update_ok status and resource

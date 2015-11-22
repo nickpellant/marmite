@@ -2,6 +2,8 @@ module Marmite
   module Endpoints
     # Controller actions for the #show endpoint
     module Show
+      include Marmite::Mixins::ExceptionRenderer
+
       # Sends the request to be processed
       def show
         Marmite::Services::ShowEndpoint.new(
@@ -16,7 +18,7 @@ module Marmite
 
       # Responds to request with show_not_found status
       def show_not_found
-        render json: {}, status: :not_found
+        render_json_error(code: :show_not_found, status: :not_found)
       end
 
       private

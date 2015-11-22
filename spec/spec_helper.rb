@@ -8,4 +8,7 @@ SimpleCov.start do
 end
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+
 require 'marmite'
+
+I18n.load_path += Dir.glob('lib/marmite/locales/*.yml')
