@@ -11,10 +11,6 @@ RSpec.describe Marmite::Endpoints::Show, type: :mixin do
       include Marmite::Controller
 
       show_endpoint
-
-      def show_params
-        {}
-      end
     end
   end
 

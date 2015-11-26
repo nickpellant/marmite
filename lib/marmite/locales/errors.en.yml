@@ -1,8 +1,10 @@
 en:
   error_codes:
+    create_validation_failed:
+      message: The resource you were creating failed validation.
     show_not_found:
       message: The resource you were trying to read could not be found.
     update_not_found:
       message: The resource you were trying to update could not be found.
-    validation_failed:
+    update_validation_failed:
       message: The resource you were updating failed validation.

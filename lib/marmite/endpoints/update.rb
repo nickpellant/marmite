@@ -16,7 +16,7 @@ module Marmite
       # Responds to request with update_conflict status
       def update_conflict(resource:)
         render_json_error(
-          code: :validation_failed,
+          code: :update_validation_failed,
           status: :conflict,
           options: { details: resource.errors }
         )
@@ -30,6 +30,12 @@ module Marmite
       # Responds to request with update_ok status and resource
       def update_ok(resource:)
         render json: resource, status: :ok
+      end
+
+      private
+
+      def update_params
+        {}
       end
     end
   end

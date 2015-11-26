@@ -27,4 +27,10 @@ RSpec.describe Marmite::Controller, type: :mixin do
 
     it { expect(update_endpoint.new).to be_a(Marmite::Endpoints::Update) }
   end
+
+  describe '#create_endpoint' do
+    subject(:create_endpoint) { TestsController.create_endpoint }
+
+    it { expect(create_endpoint.new).to be_a(Marmite::Endpoints::Create) }
+  end
 end

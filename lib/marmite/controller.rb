@@ -21,6 +21,12 @@ module Marmite
       def update_endpoint
         include(Marmite::Endpoints::Update)
       end
+
+      # Activates the #create endpoint
+      # @see Marmite::Endpoints::Create
+      def create_endpoint
+        include(Marmite::Endpoints::Create)
+      end
     end
   end
 end

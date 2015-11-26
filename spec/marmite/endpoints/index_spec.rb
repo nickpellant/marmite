@@ -11,10 +11,6 @@ RSpec.describe Marmite::Endpoints::Index, type: :mixin do
       include Marmite::Controller
 
       index_endpoint
-
-      def index_params
-        {}
-      end
     end
   end
 

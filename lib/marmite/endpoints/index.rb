@@ -19,6 +19,10 @@ module Marmite
       def index_includes
         nil
       end
+
+      def index_params
+        {}
+      end
     end
   end
 end
