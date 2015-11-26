@@ -26,6 +26,10 @@ module Marmite
       def show_includes
         nil
       end
+
+      def show_params
+        {}
+      end
     end
   end
 end

@@ -31,6 +31,12 @@ module Marmite
       def update_ok(resource:)
         render json: resource, status: :ok
       end
+
+      private
+
+      def update_params
+        {}
+      end
     end
   end
 end

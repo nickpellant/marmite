@@ -13,10 +13,6 @@ RSpec.describe Marmite::Endpoints::Update, type: :mixin do
 
       update_endpoint
 
-      def update_params
-        {}
-      end
-
       def params
         { id: 1 }
       end
