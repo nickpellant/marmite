@@ -24,28 +24,69 @@ RSpec.describe Marmite::Endpoints::Update, type: :mixin do
   describe '#update' do
     subject(:update) { tests_controller.update }
 
-    let(:update_endpoint_service) do
-      instance_spy(Marmite::Services::UpdateEndpoint)
-    end
+    context 'when using the default service' do
+      let(:update_endpoint_service) do
+        instance_spy(Marmite::Services::UpdateEndpoint)
+      end
 
-    before(:example) do
-      expect(Marmite::Services::UpdateEndpoint).to(
-        receive(:new)
-        .with(
-          controller: tests_controller,
-          resource_id: resource_id,
-          attributes: {}
+      before(:example) do
+        expect(Marmite::Services::UpdateEndpoint).to(
+          receive(:new)
+          .with(
+            controller: tests_controller,
+            resource_id: resource_id,
+            attributes: {}
+          )
+          .and_return(update_endpoint_service)
         )
-        .and_return(update_endpoint_service)
-      )
 
-      update
+        update
+      end
+
+      it { expect(tests_controller).to be_a(Marmite::Endpoints::Update) }
+
+      it 'calls the UpdateEndpoint service' do
+        expect(update_endpoint_service).to have_received(:call)
+      end
     end
 
-    it { expect(tests_controller).to be_a(Marmite::Endpoints::Update) }
+    context 'when using a custom service' do
+      before(:example) do
+        class UpdateTest < Marmite::Services::UpdateEndpoint
+        end
 
-    it 'calls the UpdateEndpoint service' do
-      expect(update_endpoint_service).to have_received(:call)
+        class TestsController
+          include Marmite::Controller
+
+          update_endpoint(service: UpdateTest)
+        end
+      end
+
+      subject(:update) { tests_controller.update }
+
+      let(:update_test) do
+        instance_spy(UpdateTest)
+      end
+
+      before(:example) do
+        expect(UpdateTest).to(
+          receive(:new)
+          .with(
+            controller: tests_controller,
+            resource_id: resource_id,
+            attributes: {}
+          )
+          .and_return(update_test)
+        )
+
+        update
+      end
+
+      it { expect(tests_controller).to be_a(Marmite::Endpoints::Update) }
+
+      it 'calls the UpdateTest service' do
+        expect(update_test).to have_received(:call)
+      end
     end
   end
 

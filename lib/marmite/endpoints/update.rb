@@ -6,7 +6,7 @@ module Marmite
 
       # Sends the request to be processed
       def update
-        Marmite::Services::UpdateEndpoint.new(
+        self.class.update_service.new(
           controller: self,
           resource_id: params[:id],
           attributes: update_params

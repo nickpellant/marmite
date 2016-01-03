@@ -4,7 +4,7 @@ module Marmite
     extend ActiveSupport::Concern
 
     class_methods do
-      attr_reader :create_service
+      attr_reader :create_service, :update_service
 
       # Activates the #show endpoint
       # @see Marmite::Endpoints::Show
@@ -20,7 +20,8 @@ module Marmite
 
       # Activates the #update endpoint
       # @see Marmite::Endpoints::Update
-      def update_endpoint
+      def update_endpoint(service: Marmite::Services::UpdateEndpoint)
+        @update_service = service
         include(Marmite::Endpoints::Update)
       end
 
