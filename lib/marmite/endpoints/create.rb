@@ -6,9 +6,8 @@ module Marmite
 
       # Sends the request to be processed
       def create
-        Marmite::Services::CreateEndpoint.new(
-          controller: self,
-          attributes: create_params
+        self.class.create_service.new(
+          controller: self, attributes: create_params
         ).call
       end
 
