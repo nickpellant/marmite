@@ -19,27 +19,67 @@ RSpec.describe Marmite::Endpoints::Create, type: :mixin do
   describe '#create' do
     subject(:create) { tests_controller.create }
 
-    let(:create_endpoint_service) do
-      instance_spy(Marmite::Services::CreateEndpoint)
-    end
+    context 'when using the default service' do
+      let(:create_endpoint_service) do
+        instance_spy(Marmite::Services::CreateEndpoint)
+      end
 
-    before(:example) do
-      expect(Marmite::Services::CreateEndpoint).to(
-        receive(:new)
-        .with(
-          controller: tests_controller,
-          attributes: {}
+      before(:example) do
+        expect(Marmite::Services::CreateEndpoint).to(
+          receive(:new)
+          .with(
+            controller: tests_controller,
+            attributes: {}
+          )
+          .and_return(create_endpoint_service)
         )
-        .and_return(create_endpoint_service)
-      )
 
-      create
+        create
+      end
+
+      it { expect(tests_controller).to be_a(Marmite::Endpoints::Create) }
+
+      it 'calls the CreateEndpoint service' do
+        expect(create_endpoint_service).to have_received(:call)
+      end
     end
 
-    it { expect(tests_controller).to be_a(Marmite::Endpoints::Create) }
+    context 'when using a custom service' do
+      before(:example) do
+        class CreateTest < Marmite::Services::CreateEndpoint
+        end
 
-    it 'calls the CreateEndpoint service' do
-      expect(create_endpoint_service).to have_received(:call)
+        class TestsController
+          include Marmite::Controller
+
+          create_endpoint(service: CreateTest)
+        end
+      end
+
+      subject(:create) { tests_controller.create }
+
+      let(:create_test) do
+        instance_spy(CreateTest)
+      end
+
+      before(:example) do
+        expect(CreateTest).to(
+          receive(:new)
+          .with(
+            controller: tests_controller,
+            attributes: {}
+          )
+          .and_return(create_test)
+        )
+
+        create
+      end
+
+      it { expect(tests_controller).to be_a(Marmite::Endpoints::Create) }
+
+      it 'calls the CreateTest service' do
+        expect(create_test).to have_received(:call)
+      end
     end
   end
 

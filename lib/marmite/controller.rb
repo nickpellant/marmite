@@ -4,6 +4,8 @@ module Marmite
     extend ActiveSupport::Concern
 
     class_methods do
+      attr_reader :create_service
+
       # Activates the #show endpoint
       # @see Marmite::Endpoints::Show
       def show_endpoint
@@ -24,7 +26,8 @@ module Marmite
 
       # Activates the #create endpoint
       # @see Marmite::Endpoints::Create
-      def create_endpoint
+      def create_endpoint(service: Marmite::Services::CreateEndpoint)
+        @create_service = service
         include(Marmite::Endpoints::Create)
       end
     end
