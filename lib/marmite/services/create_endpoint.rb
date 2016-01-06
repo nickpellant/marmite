@@ -3,6 +3,7 @@ module Marmite
     # Processes a create API request and selects a response
     class CreateEndpoint
       include Mixins::InferEndpointResource
+      include Mixins::ServiceHooks
 
       # Initializes an instance
       # @param attributes [Hash] the attributes to create with
@@ -15,6 +16,8 @@ module Marmite
       # If the resource is created it selects a created response
       # If the resource create fails it selects a conflict response
       def call
+        call_before_validations
+
         perform_create
 
         return create_conflict if resource_errors?

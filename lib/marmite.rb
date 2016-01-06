@@ -6,6 +6,7 @@ require 'marmite/railtie'
 
 require 'marmite/mixins/exception_renderer'
 require 'marmite/mixins/infer_endpoint_resource'
+require 'marmite/mixins/service_hooks'
 
 require 'marmite/endpoints/index'
 require 'marmite/endpoints/show'

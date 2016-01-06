@@ -40,6 +40,14 @@ RSpec.describe Marmite::Services::CreateEndpoint, type: :service do
       it 'responds to the request with create_created' do
         expect(controller).to receive(:create_created).with(resource: resource)
       end
+
+      context 'when a before_validation hook has been set' do
+        before(:example) do
+          create_endpoint.send(:before_validation, :test_method)
+        end
+
+        it { expect(create_endpoint).to receive(:test_method) }
+      end
     end
 
     context 'when the Resource has errors' do
