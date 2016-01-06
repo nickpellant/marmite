@@ -74,8 +74,14 @@ RSpec.describe Marmite::Services::UpdateEndpoint, type: :service do
       end
 
       context 'when a before_validation hook has been set' do
-        before(:example) do
-          update_endpoint.send(:before_validation, :test_method)
+        let(:update_endpoint) do
+          class CustomUpdateEndpoint < Marmite::Services::UpdateEndpoint
+            before_validation :test_method
+          end
+          CustomUpdateEndpoint.new(
+            attributes: attributes, controller: controller,
+            resource_id: resource_id
+          )
         end
 
         it { expect(update_endpoint).to receive(:test_method) }
