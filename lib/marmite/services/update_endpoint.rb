@@ -3,6 +3,7 @@ module Marmite
     # Processes an update API request and selects a response
     class UpdateEndpoint
       include Mixins::InferEndpointResource
+      include Mixins::ServiceHooks
 
       # Initializes an instance
       # @param attributes [Hash] the attributes to update
@@ -19,6 +20,8 @@ module Marmite
       # If the resource update fails it selects a conflict response
       def call
         return update_not_found unless resource_found?
+
+        call_before_validations
 
         perform_update
 
