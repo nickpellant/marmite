@@ -72,6 +72,14 @@ RSpec.describe Marmite::Services::UpdateEndpoint, type: :service do
       it 'responds to the request with update_ok' do
         expect(controller).to receive(:update_ok).with(resource: resource)
       end
+
+      context 'when a before_validation hook has been set' do
+        before(:example) do
+          update_endpoint.send(:before_validation, :test_method)
+        end
+
+        it { expect(update_endpoint).to receive(:test_method) }
+      end
     end
 
     context 'when the Resource is found but has errors' do
