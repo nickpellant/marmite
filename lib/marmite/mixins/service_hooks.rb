@@ -18,8 +18,6 @@ module Marmite
       included do
         # Calls methods queued for before_validation hook
         def call_before_validations
-          puts self.class.before_validations
-
           return unless self.class.try(:before_validations)
           self.class.before_validations.each { |method| send(method) }
         end
