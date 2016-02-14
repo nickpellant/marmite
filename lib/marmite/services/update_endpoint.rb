@@ -40,7 +40,6 @@ module Marmite
       # Performs update on resource
       # @return [Boolean] if the resource updates return true, else false
       def perform_update
-        puts attributes.inspect
         resource.update(attributes)
       end
 

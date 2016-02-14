@@ -21,6 +21,8 @@ module Marmite
 
           perform_create
 
+          call_after_creates
+
           return create_created
         end
 

@@ -40,14 +40,31 @@ RSpec.describe Marmite::Services::CreateEndpoint, type: :service do
       context 'when a before_validation hook has been set' do
         let(:create_endpoint) do
           class CustomCreateEndpoint < Marmite::Services::CreateEndpoint
-            before_validation :test_method
+            before_validation :before_validation_method
           end
           CustomCreateEndpoint.new(
             attributes: attributes, controller: controller
           )
         end
 
-        it { expect(create_endpoint).to receive(:test_method) }
+        it { expect(create_endpoint).to receive(:before_validation_method) }
+
+        after(:example) { Object.send(:remove_const, :CustomCreateEndpoint) }
+      end
+
+      context 'when a after_create hook has been set', focus: true do
+        let(:create_endpoint) do
+          class CustomCreateEndpoint < Marmite::Services::CreateEndpoint
+            after_create :after_create_method
+          end
+          CustomCreateEndpoint.new(
+            attributes: attributes, controller: controller
+          )
+        end
+
+        it { expect(create_endpoint).to receive(:after_create_method) }
+
+        after(:example) { Object.send(:remove_const, :CustomCreateEndpoint) }
       end
     end
 
