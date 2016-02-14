@@ -9,11 +9,17 @@ RSpec.describe Marmite::Services::CreateEndpoint, type: :service do
   let(:controller) { spy('TestsController') }
 
   let(:resource_name) { 'Test' }
-  let(:resource_constant) { class_double(resource_name, new: resource) }
+  let(:resource_constant) { class_spy(resource_name, new: resource) }
   let(:resource) { instance_double(resource_name, save: double) }
+
+  let(:record_invalid_name) { 'ActiveRecord::RecordInvalid' }
+  let(:record_invalid_constant) { Exception }
 
   before(:example) do
     stub_const(resource_name, resource_constant)
+    stub_const(record_invalid_name, record_invalid_constant)
+
+    expect(resource_constant).to receive(:transaction).and_yield
     allow(controller).to(
       receive_message_chain(:class, :name).and_return('TestsController')
     )
@@ -23,18 +29,8 @@ RSpec.describe Marmite::Services::CreateEndpoint, type: :service do
     subject(:call) { create_endpoint.call }
 
     context 'when the Resource is created' do
-      let(:does_the_resource_have_errors_instance) do
-        instance_double(
-          Marmite::Policies::DoesTheResourceHaveErrors, call: false
-        )
-      end
-
       before(:example) do
-        expect(Marmite::Policies::DoesTheResourceHaveErrors).to(
-          receive(:new)
-          .with(resource: resource)
-          .and_return(does_the_resource_have_errors_instance)
-        )
+        expect(resource).to receive(:save!).and_return(true)
       end
 
       it 'responds to the request with create_created' do
@@ -56,17 +52,9 @@ RSpec.describe Marmite::Services::CreateEndpoint, type: :service do
     end
 
     context 'when the Resource has errors' do
-      let(:does_the_resource_have_errors_instance) do
-        instance_double(
-          Marmite::Policies::DoesTheResourceHaveErrors, call: true
-        )
-      end
-
       before(:example) do
-        expect(Marmite::Policies::DoesTheResourceHaveErrors).to(
-          receive(:new)
-          .with(resource: resource)
-          .and_return(does_the_resource_have_errors_instance)
+        expect(resource).to(
+          receive(:save!).and_raise(ActiveRecord::RecordInvalid)
         )
       end
 
