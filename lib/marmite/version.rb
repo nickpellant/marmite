@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Marmite gem container
 module Marmite
   # Current version of Marmite

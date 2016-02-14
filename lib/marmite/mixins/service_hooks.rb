@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Marmite
   module Mixins
     # Implement hooks into services

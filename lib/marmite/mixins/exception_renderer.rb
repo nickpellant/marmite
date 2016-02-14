@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Marmite
   module Mixins
     # Performs exception rendering for API endpoints

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Marmite
   module Policies
     # Checks if a resource was found or not

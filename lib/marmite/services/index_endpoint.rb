@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Marmite
   module Services
     # Processes an index API request and selects a response
@@ -26,8 +27,8 @@ module Marmite
       def resources
         @resource ||= begin
           resource_query
-          .new(relation: resource_constant.all)
-          .find_for_index(filter_conditions: filter_conditions)
+                      .new(relation: resource_constant.all)
+                      .find_for_index(filter_conditions: filter_conditions)
         end
       end
 

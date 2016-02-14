@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Marmite
   module Queries
     # Performs database interactions for the Resource

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Marmite
   module Services
     # Processes a create API request and selects a response

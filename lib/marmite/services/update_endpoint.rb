@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Marmite
   module Services
     # Processes an update API request and selects a response
@@ -55,8 +56,8 @@ module Marmite
       def resource
         @resource ||= begin
           resource_query
-          .new(relation: resource_constant.all)
-          .find_for_update(resource_id: resource_id)
+                      .new(relation: resource_constant.all)
+                      .find_for_update(resource_id: resource_id)
         end
       end
 

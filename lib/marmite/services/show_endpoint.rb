@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Marmite
   module Services
     # Processes a show API request and selects a response
@@ -36,8 +37,8 @@ module Marmite
       def resource
         @resource ||= begin
           resource_query
-          .new(relation: resource_constant.all)
-          .find_for_show(find_by_conditions: find_by_conditions)
+                      .new(relation: resource_constant.all)
+                      .find_for_show(find_by_conditions: find_by_conditions)
         end
       end
 
