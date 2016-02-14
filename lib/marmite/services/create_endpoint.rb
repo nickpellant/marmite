@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Marmite
   module Services
     # Processes a create API request and selects a response
@@ -16,13 +17,18 @@ module Marmite
       # If the resource is created it selects a created response
       # If the resource create fails it selects a conflict response
       def call
-        call_before_validations
+        resource_constant.transaction do
+          call_before_validations
 
-        perform_create
+          perform_create
 
-        return create_conflict if resource_errors?
+          call_after_creates
 
-        create_created
+          return create_created
+        end
+
+      rescue ActiveRecord::RecordInvalid
+        create_conflict
       end
 
       private
@@ -32,13 +38,7 @@ module Marmite
       # Performs save on resource
       # @return [Boolean] if the resource is saved return true, else false
       def perform_create
-        resource.save
-      end
-
-      # Checks if the resource has errors
-      # @see Policies::DoesTheResourceHaveErrors
-      def resource_errors?
-        Policies::DoesTheResourceHaveErrors.new(resource: resource).call
+        resource.save!
       end
 
       # Resource to create and render in response

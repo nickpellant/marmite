@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Marmite
   module Endpoints
     # Controller actions for the #index endpoint

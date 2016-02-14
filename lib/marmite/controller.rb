@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Marmite
   # Controller Mixin to activate endpoint actions
   module Controller

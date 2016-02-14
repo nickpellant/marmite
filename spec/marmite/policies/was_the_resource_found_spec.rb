@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 RSpec.describe Marmite::Policies::WasTheResourceFound, type: :policy do

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Marmite
   module Services
     # Processes an update API request and selects a response
@@ -21,13 +22,16 @@ module Marmite
       def call
         return update_not_found unless resource_found?
 
-        call_before_validations
+        resource_constant.transaction do
+          call_before_validations
 
-        perform_update
+          perform_update
 
-        return update_conflict if resource_errors?
+          return update_ok
+        end
 
-        update_ok
+      rescue ActiveRecord::RecordInvalid
+        update_conflict
       end
 
       private
@@ -46,20 +50,14 @@ module Marmite
         Policies::WasTheResourceFound.new(resource: resource).call
       end
 
-      # Checks if the resource has errors
-      # @see Policies::DoesTheResourceHaveErrors
-      def resource_errors?
-        Policies::DoesTheResourceHaveErrors.new(resource: resource).call
-      end
-
       # Resource to update and render in response
       # @return [Resource] if the resource object was found
       # @return [nil] if the resource object was not found
       def resource
         @resource ||= begin
           resource_query
-          .new(relation: resource_constant.all)
-          .find_for_update(resource_id: resource_id)
+                      .new(relation: resource_constant.all)
+                      .find_for_update(resource_id: resource_id)
         end
       end
 
