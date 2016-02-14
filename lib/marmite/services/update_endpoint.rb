@@ -41,7 +41,7 @@ module Marmite
       # Performs update on resource
       # @return [Boolean] if the resource updates return true, else false
       def perform_update
-        resource.update(attributes)
+        resource.update!(attributes)
       end
 
       # Checks if the resource was found

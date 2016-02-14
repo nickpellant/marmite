@@ -60,7 +60,7 @@ RSpec.describe Marmite::Services::UpdateEndpoint, type: :service do
         instance_double(Marmite::Policies::WasTheResourceFound, call: true)
       end
 
-      let(:resource) { instance_double(resource_constant, update: true) }
+      let(:resource) { instance_double(resource_constant, update!: true) }
 
       it 'responds to the request with update_ok' do
         expect(controller).to receive(:update_ok).with(resource: resource)
@@ -90,7 +90,7 @@ RSpec.describe Marmite::Services::UpdateEndpoint, type: :service do
 
       before(:example) do
         expect(resource).to(
-          receive(:update).and_raise(ActiveRecord::RecordInvalid)
+          receive(:update!).and_raise(ActiveRecord::RecordInvalid)
         )
       end
 
