@@ -21,13 +21,16 @@ module Marmite
       def call
         return update_not_found unless resource_found?
 
-        call_before_validations
+        resource_constant.transaction do
+          call_before_validations
 
-        perform_update
+          perform_update
 
-        return update_conflict if resource_errors?
+          return update_ok
+        end
 
-        update_ok
+      rescue ActiveRecord::RecordInvalid
+        update_conflict
       end
 
       private
@@ -37,6 +40,7 @@ module Marmite
       # Performs update on resource
       # @return [Boolean] if the resource updates return true, else false
       def perform_update
+        puts attributes.inspect
         resource.update(attributes)
       end
 
@@ -44,12 +48,6 @@ module Marmite
       # @see Policies::WasTheResourceFound
       def resource_found?
         Policies::WasTheResourceFound.new(resource: resource).call
-      end
-
-      # Checks if the resource has errors
-      # @see Policies::DoesTheResourceHaveErrors
-      def resource_errors?
-        Policies::DoesTheResourceHaveErrors.new(resource: resource).call
       end
 
       # Resource to update and render in response
