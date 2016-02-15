@@ -25,6 +25,11 @@ module Marmite
           Marmite::Queries::ResourceQuery
         end
       end
+
+      # Access scope for retrieving resources
+      def resource_scope
+        resource_constant.all
+      end
     end
   end
 end
