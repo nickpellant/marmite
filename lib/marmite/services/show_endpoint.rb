@@ -37,7 +37,7 @@ module Marmite
       def resource
         @resource ||= begin
           resource_query
-                      .new(relation: resource_constant.all)
+                      .new(relation: resource_scope)
                       .find_for_show(find_by_conditions: find_by_conditions)
         end
       end
