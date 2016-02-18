@@ -5,7 +5,7 @@ module Marmite
     module Index
       # Sends the request to be processed
       def index
-        Marmite::Services::IndexEndpoint.new(
+        self.class.index_service.new(
           controller: self, filter_conditions: index_params
         ).call
       end
