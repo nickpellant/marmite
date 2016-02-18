@@ -5,7 +5,7 @@ module Marmite
     extend ActiveSupport::Concern
 
     class_methods do
-      attr_reader :create_service, :update_service
+      attr_reader :create_service, :index_service, :update_service
 
       # Activates the #show endpoint
       # @see Marmite::Endpoints::Show
@@ -15,7 +15,8 @@ module Marmite
 
       # Activates the #index endpoint
       # @see Marmite::Endpoints::Index
-      def index_endpoint
+      def index_endpoint(service: Marmite::Services::IndexEndpoint)
+        @index_service = service
         include(Marmite::Endpoints::Index)
       end
 

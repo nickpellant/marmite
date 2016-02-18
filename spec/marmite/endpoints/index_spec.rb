@@ -20,26 +20,66 @@ RSpec.describe Marmite::Endpoints::Index, type: :mixin do
   describe '#index' do
     subject(:index) { tests_controller.index }
 
-    let(:index_endpoint_service) do
-      instance_spy(Marmite::Services::IndexEndpoint)
-    end
+    context 'when using the default service' do
+      let(:index_endpoint_service) do
+        instance_spy(Marmite::Services::IndexEndpoint)
+      end
 
-    before(:example) do
-      expect(Marmite::Services::IndexEndpoint).to(
-        receive(:new)
-        .with(
-          controller: tests_controller, filter_conditions: {}
+      before(:example) do
+        expect(Marmite::Services::IndexEndpoint).to(
+          receive(:new)
+          .with(
+            controller: tests_controller, filter_conditions: {}
+          )
+          .and_return(index_endpoint_service)
         )
-        .and_return(index_endpoint_service)
-      )
 
-      index
+        index
+      end
+
+      it { expect(tests_controller).to be_a(Marmite::Endpoints::Index) }
+
+      it 'calls the IndexEndpoint service' do
+        expect(index_endpoint_service).to have_received(:call)
+      end
     end
 
-    it { expect(tests_controller).to be_a(Marmite::Endpoints::Index) }
+    context 'when using a custom service' do
+      before(:example) do
+        class IndexTest < Marmite::Services::IndexEndpoint
+        end
 
-    it 'calls the IndexEndpoint service' do
-      expect(index_endpoint_service).to have_received(:call)
+        class TestsController
+          include Marmite::Controller
+
+          index_endpoint(service: IndexTest)
+        end
+      end
+
+      subject(:index) { tests_controller.index }
+
+      let(:index_test) do
+        instance_spy(IndexTest)
+      end
+
+      before(:example) do
+        expect(IndexTest).to(
+          receive(:new)
+          .with(
+            controller: tests_controller,
+            filter_conditions: {}
+          )
+          .and_return(index_test)
+        )
+
+        index
+      end
+
+      it { expect(tests_controller).to be_a(Marmite::Endpoints::Index) }
+
+      it 'calls the IndexTest service' do
+        expect(index_test).to have_received(:call)
+      end
     end
   end
 
